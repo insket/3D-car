@@ -1,5 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
+import { Color } from "three";
 
 export default function Rings() {
   const ring = Array(14).fill(0);
@@ -14,6 +15,17 @@ export default function Rings() {
       let dist = Math.abs(z);
       mesh.scale.set(1 - dist * 0.04, 1 - dist * 0.04, 1 - dist * 0.04);
 
+      let colorScale = 1;
+      if (dist > 2) {
+        colorScale = 1 - (Math.min(dist, 12) - 2) / 10;
+      }
+      colorScale *= 0.5;
+
+      if (i % 2 === 1) {
+        mesh.material.emissive = new Color(6, 0.15, 0.7).multiplyScalar(colorScale);
+      } else {
+        mesh.material.emissive = new Color(0.1, 0.7, 3).multiplyScalar(colorScale);
+      }
     }
   });
   return (

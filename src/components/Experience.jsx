@@ -1,4 +1,4 @@
-import { Environment, OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { CubeCamera, Environment, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Ground from "./Ground";
 import Car from "./Car";
 import Rings from "./Rings";
@@ -9,11 +9,21 @@ export const Experience = () => {
       <OrbitControls target={[0, 0.35, 0]} maxPolarAngle={1.45} />
       <PerspectiveCamera makeDefault fov={50} position={[3, 2, 5]} />
 
-
       <color args={[0, 0, 0]} attach="background" />
 
       <Ground />
-      <Car />
+
+      <CubeCamera resolution={256} frames={Infinity}>
+        {(texture) => {
+          return (
+            <>
+              <Environment map={texture} />
+              <Car />
+            </>
+          );
+        }}
+      </CubeCamera>
+
       <Rings />
 
       <spotLight
@@ -35,10 +45,6 @@ export const Experience = () => {
         castShadow
         shadow-bias={-0.0001}
       />
-
-
-
-      
     </>
   );
 };
